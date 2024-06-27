@@ -20,7 +20,7 @@ if (buttonChangeStatus.length > 0) {
             // console.log(id);
             // console.log(statusChange);
 
-            const action = path + `${statusChange}/${id}?_method=PATCH`; //?_method=PATCH` của method-override bên form method phải luôn luôn để post
+            const action =`${path}/${statusChange}/${id}?_method=PATCH`; //?_method=PATCH` của method-override bên form method phải luôn luôn để post
             console.log(action);
 
             formchangeStatus.action = action;

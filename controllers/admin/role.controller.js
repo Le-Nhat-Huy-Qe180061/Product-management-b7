@@ -11,20 +11,17 @@ module.exports.index = async (req, res, next) => {
    }
    const record = await Role.find(find);
 
-   console.log(record);
-
+   // console.log(record);
 
    res.render("admin/pages/roles/index", {
       pageTitle: "Nhóm quyền",
       records: record
    });
-
 }
 
 
 //[GET] /adim/roles/create
 module.exports.create = async (req, res, next) => {
-
 
    res.render("admin/pages/roles/create", {
       pageTitle: "Tạo nhóm quyền",
@@ -35,13 +32,16 @@ module.exports.create = async (req, res, next) => {
 //[Post] /adim/roles/create
 module.exports.createPost = async (req, res, next) => {
 
-   console.log(req.body);
-
-   const record = new Role(req.body);
-   await record.save();
-
+   // console.log(req.body);
+   try {
+      const record = new Role(req.body);
+      await record.save();
+      req.flash("success", "Tạo thành công");
+   } catch (error) {
+      req.flash("error", "Tạo không thành công!");
+   }
+   
    res.redirect(`${systemConfig.prefixAdmin}/roles`);
-
 }
 
 //[GET] /adim/roles/edit/:id

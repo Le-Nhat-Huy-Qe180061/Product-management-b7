@@ -1,6 +1,6 @@
 // Button status 
 const buttonStatus = document.querySelectorAll("[button-status]");
-// console.log(buttonStatus);
+console.log(buttonStatus);
 
 // Kiểm tra xem có phần tử nào có thuộc tính button-status không
 if (buttonStatus.length > 0) {

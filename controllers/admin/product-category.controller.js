@@ -42,18 +42,19 @@ module.exports.index = async (req, res) => {
     let objectPagination = paginationHelper(
         {
             currentPage: 1,
-            limitItems: 3
+            limitItems: 15
         },
         req.query,
         countProductsCategory
     )
 
 
-    const records = await ProductCategory.find(find)
-        .limit(objectPagination.limitItems)
-        .skip(objectPagination.skip);
+    const records = await ProductCategory.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip);
 
-    const newRecords = createTreeHelper.tree(records);
+
+    const newRecords = createTreeHelper.tree2(records);
+    // const newRecords = createTreeHelper(records);
+
 
     // nơi truyền ra bên ngoài giao diện pug
     res.render("admin/pages/products-category/index", {
@@ -72,8 +73,8 @@ module.exports.changStatus = async (req, res, next) => {
     const status = req.params.status;
     const id = req.params.id;
 
-    console.log(status);
-    console.log(id);
+    // console.log(status);
+    // console.log(id);
 
     await ProductCategory.updateOne(
         { _id: id },
@@ -112,10 +113,8 @@ module.exports.create = async (req, res) => {
 
     const records = await ProductCategory.find(find);
 
-    const newRecords = createTreeHelper.tree(records);
-
-    // console.log(records);
-    console.log(newRecords);
+    // const newRecords = createTreeHelper.tree(records);
+    const newRecords = createTreeHelper(records);
 
     // nơi truyền ra bên ngoài giao diện pug
     res.render("admin/pages/products-category/create", {
@@ -128,7 +127,7 @@ module.exports.create = async (req, res) => {
 // [POST] /admin/product-category/create
 module.exports.createPost = async (req, res) => {
 
-    console.log(req.body);
+    // console.log(req.body);
     if (req.body.position == "") {
         const countProducts = await ProductCategory.countDocuments(); // đếm trong cái ProductCategory có bao nhiêu bản ghi
         req.body.position = countProducts + 1; // xong update lên 1 đơn vị
@@ -162,8 +161,11 @@ module.exports.edit = async (req, res) => {
         const records = await ProductCategory.find({
             deleted: false
         });
-        const newRecords = createTreeHelper.tree(records);
+        // const newRecords = createTreeHelper.tree(records);
+        const newRecords = createTreeHelper(records);
+
         // nơi truyền ra bên ngoài giao diện pug
+
         res.render("admin/pages/products-category/edit", {
             pageTitle: "Chỉnh sửa danh mục sản phẩm",
             data: data,
@@ -178,13 +180,22 @@ module.exports.edit = async (req, res) => {
 // [Path] /admin/product-category/edit/:id
 module.exports.editPath = async (req, res) => {
 
+    /*
+    const permissions = res.locals.role.permission;
+    if(permissions.inclue("products-category_create")){
+        console.log("Accept")
+    }else{
+        res.send("403");
+        return;
+    }
+    */
 
     const id = req.params.id;
 
     req.body.position = parseInt(req.body.position); // cập nhập lại vị trí là số nguyên
 
-     // mongoose queries
-     try {
+    // mongoose queries
+    try {
         await ProductCategory.updateOne({ _id: id }, req.body);
         req.flash("success", "Cập nhập thành công");
     } catch (error) {
@@ -219,8 +230,8 @@ module.exports.detail = async (req, res, next) => {
 module.exports.deleteItem = async (req, res, next) => {
 
     const id = req.params.id;
-    
-    await ProductCategory.updateOne({_id:id}, {
+
+    await ProductCategory.updateOne({ _id: id }, {
         deleted: true,
         deletedAt: new Date()
     });

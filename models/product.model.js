@@ -7,7 +7,7 @@ mongoose.plugin(slug);
 const productSchema = new mongoose.Schema(
   {
     title: String, // vd: sản phẩm 1 slug
-    product_category: { // tạo như này do lúc nào cũng ko phải có data truyền vào 
+    product_category_id: { // tạo như này do lúc nào cũng ko phải có data truyền vào 
       type: String,
       default: "" // nếu ko truyền vao là string rổng
     },
@@ -17,6 +17,10 @@ const productSchema = new mongoose.Schema(
     stock: Number,
     thumbnail: String,
     status: String,
+    featured: {
+      type: String,
+      default: "0"
+    },
     position: Number,
     slug: {
       type: String,
@@ -40,6 +44,12 @@ const productSchema = new mongoose.Schema(
       account_id: String,
       deletedAt: Date
     },
+    updatedBy: [ // dùng mãng để push vào để ko mất phần tử cũ
+      {
+        account_id: String,
+        updatedAt: Date
+      }
+    ],
   },
   {
     // khi sét timestamps là true thì sẽ tự tạo sản createAt và updateAt

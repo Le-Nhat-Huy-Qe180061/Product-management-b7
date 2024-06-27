@@ -58,6 +58,7 @@ block main
               th Vị trí
               th Trạng thái
               th Người tạo
+              th Người cập nhập
               th Hành động
 
           tbody
@@ -97,6 +98,12 @@ block main
                   p #{item.accountFullName}
                   p
                     +formatDateTime(item.createdBy.createAt)
+                td
+                  - const updatedby = item.updatedBy.slice(-1)[0];
+                  if(updatedby)
+                    p #{updatedby.accountFullName}
+                    p  
+                      +formatDateTime(updatedby.updatedAt)      
                 td
                   a(
                      href=`${prefixAdmin}/products/detail/${item.id}`
