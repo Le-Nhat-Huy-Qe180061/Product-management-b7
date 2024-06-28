@@ -14,12 +14,17 @@ const userRoutes = require("./user.route");
 
 const authMiddleware = require("../../middlewares/client/auth.middlewares");
 
+const userMiddleware = require("../../middlewares/client/user.middlewares");
+
+
 
 module.exports = (app) => {
 
     app.use(categoryMiddleware.category);
 
     app.use(cartMiddleware.cartId);
+
+    app.use(userMiddleware.infoUser);
 
     app.use('/', homeRoutes);
     app.use("/products", productRoutes);

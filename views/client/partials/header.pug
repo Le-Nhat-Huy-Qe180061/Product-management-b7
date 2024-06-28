@@ -38,11 +38,7 @@ header.header
                 +sub-menu(layoutProductsCategory)
             li
               a(href="/cart") Giỏ hàng (#{miniCart ? miniCart.totalQuantity : "0"})
-              if(user)
-                li
-                  a(href="/users/friends") Bạn bè
-                li
-                  a(href="/rooms-chat") Phòng chat
+              if(user)         
                 li
                   a(href="/user/info") #{user.fullName}
                 li
@@ -51,7 +47,10 @@ header.header
                 li
                   a(href="/user/login") Đăng nhập
                 li
-                  a(href="/user/register") Đăng ký
+                  a(href="/user/login") Đăng ký
+
+
+             
 
      
 
