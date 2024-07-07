@@ -40,7 +40,7 @@ router.get("/create", controller.create);
 // multer --> thêm vào upload.single('thumbnail')
 router.post(
     "/create",
-    upload.single('thumbnail'),
+    upload.single('logo'),
     upLoadClound.upload,
     validate.createPost,
     controller.createPost

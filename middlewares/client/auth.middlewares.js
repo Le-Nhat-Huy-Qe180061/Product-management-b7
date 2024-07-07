@@ -1,6 +1,6 @@
 
 const User = require("../../models/user.model");
-const systemConfig = require("../../config/system");
+
 
 module.exports.requireAuth = async (req, res, next) => {
 

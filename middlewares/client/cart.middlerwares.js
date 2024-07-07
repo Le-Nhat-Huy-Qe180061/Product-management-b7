@@ -14,7 +14,7 @@ module.exports.cartId = async (req, res, next) => {
 
     cart.totalQuantity = cart.products.reduce((sum, item) => sum + item.quantity, 0); // tỉnh tổng sản phẩm 
 
-    console.log(cart)
+    // console.log(cart)
     
     res.locals.miniCart = cart;
   }

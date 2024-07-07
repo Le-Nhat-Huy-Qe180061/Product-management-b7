@@ -16,7 +16,10 @@ const authMiddleware = require("../../middlewares/client/auth.middlewares");
 
 const userMiddleware = require("../../middlewares/client/user.middlewares");
 
+const settingMiddleware = require("../../middlewares/client/setting.middleware");
 
+// chat
+const chatRoutes = require("./chat.route");
 
 module.exports = (app) => {
 
@@ -26,11 +29,15 @@ module.exports = (app) => {
 
     app.use(userMiddleware.infoUser);
 
+    app.use(settingMiddleware.settingGeneral);
+
     app.use('/', homeRoutes);
     app.use("/products", productRoutes);
     app.use("/search", searchRoutes);
     app.use("/cart",  authMiddleware.requireAuth, cartRoutes);
     app.use("/checkout",  authMiddleware.requireAuth, checkoutRoutes);
     app.use("/user", userRoutes);
+
+    app.use("/chat", authMiddleware.requireAuth, chatRoutes);
 
 }

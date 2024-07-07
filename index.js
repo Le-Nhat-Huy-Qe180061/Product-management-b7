@@ -11,6 +11,10 @@ const bodyParser = require('body-parser');
 var flash = require('express-flash');
 require('dotenv').config();
 
+//socket.io
+const http = require("http");
+const {Server} = require("socket.io");
+//END socket.io
 
 //---------- ROUTE ----------
 // Client
@@ -26,7 +30,6 @@ const systemConfig = require("./config/system");
 //Database
 const database = require("./config/database");
 database.connect();
-//1:36:50
 //-----------------End Database-----------------
 
 // express-flash
@@ -55,6 +58,11 @@ app.set("views", `${__dirname}/views`); // vercel
 app.set("view engine", "pug");
 app.use(express.static(`${__dirname}/public`)); // vercel
 
+//Socket.io
+const server = http.createServer(app); // Tạo ra server 
+const io = new Server(server);
+global._io = io; // Tạo biến toàn cục dùng ở bất kỳ đâu ở trong app
+ // sau khi cài server thì đổi app listen bằng server để kết hợp
 
 // express-flash
 app.use(cookieParser('huykute'));
@@ -83,6 +91,7 @@ route(app);
 routeAdmin(app);
 
 
-app.listen(port, () => {
+
+server.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });

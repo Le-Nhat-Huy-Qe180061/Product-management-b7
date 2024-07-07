@@ -84,7 +84,7 @@ module.exports.loginPost = async (req, res) => {
   // Cập nhật trạng thái người dùng thành "online".
   // Phát sóng trạng thái trực tuyến của người dùng tới các kết nối socket khác.
 
-  await Cart.updateOne({
+  await Cart.updateOne({ // cập nhập lưu user_id để biết giỏ hàng của user nào
     _id: req.cookies.cartId
   }, {
     user_id: user.id
@@ -114,7 +114,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
   // B1 check có kiểm tra có đúng thật email tồn tại trong database hay ko
   const email = req.body.email;
 
-  const otp = generateHelper.generateRandomNumber(8);
+  const otp = generateHelper.generateRandomNumber(4);
 
   const user = await User.findOne({
     email: email,
@@ -131,7 +131,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
   const objectForgotPassword = {
     email: email,
     otp: otp,
-    expireAt: Date.now()
+    expireAt: Date.now() + 3*60*1000,
   };
 
   // B2.1 Lưu vào trong database
@@ -141,8 +141,9 @@ module.exports.forgotPasswordPost = async (req, res) => {
 
   // B2 Gửi mã OTP qua email của user
 
-  
-
+  const subject = "Lấy lại mật khẩu";
+  const text = `Mã OTP xác thực tài khoản của bạn là :${otp}. Có hiệu lực trong vòng 3 phút vui lòng không cung cấp mã OTP này với bất cứ ai`;
+  sendMailHelper.sendMail(email,subject,text);
   res.redirect(`/user/password/otp?email=${email}`); //gửi email lên trên url để ta biết forcus vào email đấy
 }
 
@@ -220,4 +221,10 @@ module.exports.resetPasswordPost = async (req, res) => {
 
 
 
+// [GET] /user/info
+module.exports.info = async (req, res) => {
+  res.render("client/pages/user/info", {
+    pageTitle: "Trang thông tin cá nhân",
+  });
+}
 
