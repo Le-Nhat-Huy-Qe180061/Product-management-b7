@@ -23,6 +23,8 @@ const validate = require("../../validates/admin/product.validate.js");
 //Clound
 const upLoadClound = require("../../middlewares/admin/upLoadClound.middlewares.js");
 
+const uploadCloud2 = require("../../helpers/uploadTocloudinary.js");
+
 
 router.get("/", controller.index);
 
@@ -40,8 +42,8 @@ router.get("/create", controller.create);
 // multer --> thêm vào upload.single('thumbnail')
 router.post(
     "/create",
-    upload.single('logo'),
-    upLoadClound.upload,
+    upload.single('thumbnail'),
+    uploadCloud2.uploadSingle,
     validate.createPost,
     controller.createPost
 );
@@ -51,12 +53,10 @@ router.get("/edit/:id", controller.edit);
 
 router.patch("/edit/:id",
     upload.single('thumbnail'),
-    upLoadClound.upload,
+    uploadCloud2.uploadSingle,
     validate.createPost,
     controller.editPatch
 );
-
-
 
 router.get("/detail/:id", controller.detail);
 

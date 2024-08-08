@@ -10,8 +10,6 @@ const chatSocket = require("../../sockets/client/chat.socket");
 module.exports.index = async (req, res) => {
 
 
-
-
     // SocketIo
     chatSocket(res);
     // END SocketIO

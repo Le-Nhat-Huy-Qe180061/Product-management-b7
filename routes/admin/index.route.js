@@ -13,7 +13,7 @@ const authMiddleware = require("../../middlewares/admin/auth.middlewares");
 const settingRoutes = require("./setting.route");
 
 
-module.exports = (app) => {
+module.exports.index = (app) => {
 
     const PATH_ADMIN = systemConfig.prefixAdmin;
 

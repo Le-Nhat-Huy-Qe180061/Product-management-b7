@@ -122,6 +122,24 @@ module.exports.editPatch = async (req, res) => {
 //1:20
 
 
+//[GET] admin/account/detail/:id
+module.exports.detail = async (req, res, next) => {
+
+   console.log(req.params.id);
+
+   let find = {
+      _id: req.params.id,
+      deleted: false
+   }
+
+   const account = await Account.findOne(find);
+
+   res.render("admin/pages/accounts/detail", {
+       pageTitle: "Thông tin cá nhân",
+       account: account
+   });
+}
+
 
 
 // req.params:

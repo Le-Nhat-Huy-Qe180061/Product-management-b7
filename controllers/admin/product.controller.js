@@ -267,9 +267,9 @@ module.exports.createPost = async (req, res) => {
     //     req.body.thumbnail = `/uploads/${req.file.filename}`;
     // } ====> đã upload sửa bên router nên ko cần
 
-    req.body.createdBy = {
-        account_id: res.locals.user.id
-    }
+    // console.log(res.locals.role.permission);
+
+    req.body.createdBy = res.locals.user.id;
 
     // Save product
     const product = new Product(req.body);
@@ -323,7 +323,7 @@ module.exports.editPatch = async (req, res) => {
     if (req.file) {
         req.body.thumbnail = `/uploads/${req.file.filename}`;
     }
-
+ 
     // mongoose queries
     try {
 

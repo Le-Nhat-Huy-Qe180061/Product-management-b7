@@ -12,8 +12,12 @@ router.post("/login",
     controller.loginPost
 );
 
+router.get("/password/forgot", controller.forgotPassword);
+
+
 
 router.get("/logout", controller.logout);
+
 
 
 

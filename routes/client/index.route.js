@@ -21,7 +21,7 @@ const settingMiddleware = require("../../middlewares/client/setting.middleware")
 // chat
 const chatRoutes = require("./chat.route");
 
-module.exports = (app) => {
+module.exports.index = (app) => {
 
     app.use(categoryMiddleware.category);
 

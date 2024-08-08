@@ -1,40 +1,37 @@
+const cloudinary = require('cloudinary').v2;
+const streamifier = require('streamifier');
 
-
-// npm in cloudinary 
-const cloudinary = require("cloudinary").v2;
-// npm streamifier
-const streamifier = require("streamifier");
-
-// Cloundinary
-cloudinary.config({
-    cloud_name: process.env.CLOUND_NAME,
-    api_key: process.env.CLOUND_KEY,
-    api_secret: process.env.CLOUND_SECRET
+cloudinary.config({ 
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.CLOUD_KEY, 
+  api_secret: process.env.CLOUD_SECRET
 });
-// End Cloundinary
-// dùng để uploand ảnh bên file pug admin/pages/products/create.pug bên fond-end
 
-
-let stremUpload = (buffer) => {
-    return new Promise((resolve, reject) => {
+module.exports.uploadSingle = (req, res, next) => {
+  if(req.file) {
+    const streamUpload = (buffer) => {
+      return new Promise((resolve, reject) => {
         let stream = cloudinary.uploader.upload_stream(
-            (error, result) => {
-                if (result) {
-                    resolve(result);
-                }
-                else {
-                    reject(error);
-                }
+          (error, result) => {
+            if (result) {
+              resolve(result);
+            } else {
+              reject(error);
             }
+          }
         );
         streamifier.createReadStream(buffer).pipe(stream);
-        // buffer là kiu mã hóa nhị phân
-    });
-};
+      });
+    }
 
+    const uploadToCloudinary = async (buffer) => {
+      const result = await streamUpload(buffer);
+      req.body[req.file.fieldname] = result.url;
+      next();
+    }
 
-
-module.exports.uploadTocloudinary = async (buffer) => {
-    let result = await stremUpload(buffer);
-    return result.url;
+    uploadToCloudinary(req.file.buffer);
+  } else {
+    next();
+  }
 }

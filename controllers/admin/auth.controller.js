@@ -60,3 +60,13 @@ module.exports.logout = async (req, res, next) => {
     res.clearCookie("token");
     res.redirect(`${systemConfig.prefixAdmin}/auth/login`);
 }
+
+
+// [GET] /auth/password/forgot
+module.exports.forgotPassword = async (req, res) => {
+    res.render("admin/pages/auth/forgot-password", {
+        pageTitle: "Lấy lại mật khẩu",
+    });
+}
+
+

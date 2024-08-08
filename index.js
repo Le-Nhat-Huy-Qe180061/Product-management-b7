@@ -85,12 +85,9 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 //moment use
 app.locals.moment = moment;
 
-
 //Route
-route(app);
-routeAdmin(app);
-
-
+route.index(app);
+routeAdmin.index(app);
 
 server.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
